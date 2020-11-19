@@ -6,9 +6,11 @@ const EMPTY = ' ';
 
 var gLevel;
 var gBoard;
+var gIntervalId;
 
 var numCellLevel;
 var mineAmount;
+var mineCounter;
 var gGame = {
     isOn: false,
     shownCount: 0,
@@ -17,9 +19,9 @@ var gGame = {
 }
 
 var cell = {
-    isShown: true,
+    isShown: false,
     isMine: false,
-    isMarked: true, // How many cellsare marked (with a flag)
+    isMarked: true, // How many cells are marked (with a flag)
     minesAroundCount: 0,
 };
 
@@ -28,11 +30,17 @@ var mineCoord2 = { i: 2, j: 2 };
 
 var numCellLevel = 4;
 var mineAmount = 2;
+var firstCellClick = true;
 
 function init() {
+    gGame.isOn = true;
     gBoard = createBoard(numCellLevel, mineAmount)
     console.table('gBoard', gBoard);
     renderBoard(gBoard);
+    clearInterval(gIntervalId);
+    firstCellClick = true;
+    mineCounter = mineAmount;
+    howManyMines(mineCounter);
 }
 
 function setLevel(elLevel) {
@@ -69,7 +77,7 @@ function createBoard(size) {
         for (var j = 0; j < size; j++) {
             if ((i === 1 && j === 3) ||
                 (i === 2 && j === 2)) {
-                mat[i][j] = MINE; //tableFill();
+                mat[i][j] = MINE; 
             } else {
                 mat[i][j] = EMPTY;
             }
@@ -79,10 +87,7 @@ function createBoard(size) {
         var iIdx = i;
         for (var j = 0; j < mat[0].length; j++) {
             var jIdx = j;
-            setMinesNegsCount(iIdx, jIdx, mat)
-            // cell.minesAroundCount = 
-            // console.log('xd:',mat[iIdx][jIdx], cell.minesAroundCount);
-            // renderCell(cell.minesAroundCount);
+            setMinesNegsCount(iIdx, jIdx, mat);
         }
     }
     return mat
@@ -126,7 +131,7 @@ function setMinesNegsCount(cellI, cellJ, mat) {
         }
     }
     if (neighborsSum > 0) mat[cellI][cellJ] = neighborsSum;
-    
+
 }
 
 //Render the board as a <table> to the page
@@ -135,25 +140,56 @@ function renderBoard(board) {
     for (var i = 0; i < board.length; i++) {
         strHtml += '<tr>'
         for (var j = 0; j < board[0].length; j++) {
-            strHtml += `<td class="cell" onclick="cellCliked(this)">${board[i][j]} </td>`
+            var tdId = 'cell-' + i + '-' + j;
+            strHtml += `<td id="${tdId}" onclick="cellClicked(this)" class="${'covered'}">${board[i][j]}</td>`
         }
-        strHtml += '</tr>'
     }
+    strHtml += '</tr>'
+
     var elBoard = document.querySelector('.board');
     elBoard.innerHTML = strHtml;
 }
 
-
-//cellClicked(elCell, i, j)
 //Called when a cell (td) is clicked
+function cellClicked(elCell, i, j) {
+    if (firstCellClick) {
+        timer();
+        firstCellClick = false;
+    }
+    if (elCell.innerText === MINE) {
+        checkGameOver(elCell);
+    }
+    elCell.classList.add('un')
+}
+
+function timer() {
+    var startTime = Date.now();
+    gIntervalId = setInterval(function () {
+        var elapsedTime = Date.now() - startTime;
+        document.querySelector('.timer').innerHTML = '⏰' + (elapsedTime / 1000).toFixed(
+            0
+        );
+    }, 100);
+}
+
+function howManyMines(mineCounter) {
+    document.querySelector('.bomb').innerHTML = '💣' + mineCounter;
+    mineCounter--;
+}
+
 
 //cellMarked(elCell)
 // Called on right click to mark a cell (suspected to be a mine)
 // Search the web (and implement) how to hide the context menu on right click
 
-//checkGameOver()
-//Game ends when all mines are marked, and all the other cells are shown
-//and the timer is stoped
+//Game ends when all mines are marked, and all the other cells are shown and the timer is stoped
+function checkGameOver(elCell) {
+gGame.isOn = false;
+elCell.style.backgroundColor = "red";
+clearInterval(gIntervalId);
+firstCellClick = true;
+}
+
 
 //expandShown(board, elCell, i, j)
 // When user clicks a cell with no mines around, we need to open
@@ -162,29 +198,3 @@ function renderBoard(board) {
 // the non-mine 1st degree neighbors.
 // BONUS: if you have the time later, try to work more like the
 // real algorithm (see description at the Bonuses section below)
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-// 
-
-
-// function printMat(mat, selector) {
-//     var strHTML = '<table border="0"><tbody>';
-//     for (var i = 0; i < mat.length; i++) {
-//       strHTML += '<tr>';
-//       for (var j = 0; j < mat[0].length; j++) {
-//         var cell = mat[i][j];
-//         var className = 'cell cell' + i + '-' + j;
-//         strHTML += '<td class="' + className + '"> ' + cell + ' </td>'
-//       }
-//       strHTML += '</tr>'
-//     }
-//     strHTML += '</tbody></table>';
-//     var elContainer = document.querySelector(selector);
-//     elContainer.innerHTML = strHTML;
-//   }
-
-
-

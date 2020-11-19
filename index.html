@@ -8,12 +8,19 @@
     <link rel="stylesheet" href="css/minesweeper.css">
 </head>
 
+<div class="modal">
+    <button onclick="reload()">Play again</button>
+    <h3></h3>
+</div>
+
 <body onload="init()">
     <h1>💣The MineSweeper 💣</h1>
-
     <button class="level" onclick="setLevel(this)">Begginer</button>
     <button class="level" onclick="setLevel(this)">Medium</button>
-    <button class="level" onclick="setLevel(this)">Expert</button>
+    <button class="level" onclick="setLevel(this)">Expert</button><br>
+    <button class="bomb">💣 000</button>
+    <button class="level" onclick="init()">Reload</button>
+    <button class="timer">⏰ 000</button>
     <table border="1" cellpadding="10">
         <tbody class="board"></tbody>
     </table>
