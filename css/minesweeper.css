@@ -1,5 +1,10 @@
-title {
-    background-color: papayawhip;
+.smiley{
+    font-size: x-large;
+    background-color: transparent;
+    border: transparent;
+}
+.smiley button:hover {
+    cursor: pointer;
 }
 
 body {
@@ -16,19 +21,18 @@ button {
     display: inline;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 3px;
-    margin-bottom: 20px;
+    margin-top: 0px;
+    margin-bottom: 8px;
 }
 
-.level:hover{
+.level:hover {
     display: inline;
     cursor: pointer;
 }
 
-table{
+table {
     margin-left: auto;
     margin-right: auto;
-    
 }
 
 .board td {
@@ -37,19 +41,55 @@ table{
     text-align: center;
     transition: .5s;
     /* background-color: teal; */
-    font-size: 20px;
+    font-size: 18px;
 }
 
-.board td:hover{
+.board td:hover {
     cursor: pointer;
-    
 }
 
-.covered{
-    background-color: black;
-
+.covered {
+    background-color: palevioletred;
 }
 
-.un{
+.un {
     background-color: teal;
 }
+.h3{
+    margin: auto;
+}
+.modal {
+    background-color: rgb(139, 115, 115);
+    /* font-style: ; */
+    font-size: medium;
+    padding-bottom: 10px;
+    color: black;
+    display: none;
+    position: fixed;
+    top: 210px;
+    right: 600px;
+    padding-bottom: 40px;
+    padding-left: 20px;
+    width: 300px;
+    height: 5px;
+    border: 3px dashed #d03aa3;
+    border-radius: 7px;
+}
+
+/* .modal button { */
+    height: 15px;
+    width: 100px;
+    border-radius: 10px;
+    font-size: medium;
+    display: block;
+    top: 400px;
+    margin-left: auto;
+    margin-right: 8px;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    float: right;
+}
+
+/* .modal button:hover {
+    cursor: pointer;
+} */
