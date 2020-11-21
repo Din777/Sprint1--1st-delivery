@@ -221,7 +221,7 @@ function getRAndomMine(mineCount) {
     var randomI = 0;
     var randomJ = 0;
     var randomCellArray = [];
-    for (var i = 0; i <= mineCount - 1; i++) {
+    for (var i = 0; i < mineCount; i++) {
         randomI = getRandomInt(0, numCellLevel);
         randomJ = getRandomInt(0, numCellLevel);
         var cell = { i: randomI, j: randomJ };
